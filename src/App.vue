@@ -10,7 +10,7 @@ import { routes } from "./router/index";
 
 <style scoped lang="less">
 .apc {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   padding: 12px;

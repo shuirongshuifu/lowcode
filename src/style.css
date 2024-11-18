@@ -33,7 +33,7 @@ html {
 }
 
 body {
-  overflow: hidden;
+  overflow: auto;
 }
 
 html,
@@ -46,9 +46,14 @@ body {
 
 #app {
   color: #363636;
-  overflow-y: auto;
 }
 
 div {
   box-sizing: border-box;
+}
+
+/* 选中时的 outline 效果 */
+.focused {
+  outline: 3px dashed blue;
+  outline-offset: 5px;
 }

@@ -11,4 +11,16 @@ export default defineConfig({
     },
   },
   plugins: [vue()],
+  server: {
+    port: 7499,
+    host: true,
+    open: true,
+    proxy: {
+      '/auth': {
+        target: 'http://ashuai.work:10000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/auth/, "")
+      }
+    },
+  },
 })
