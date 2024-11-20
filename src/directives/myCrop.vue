@@ -1,5 +1,5 @@
 <template>
-    <div class="cropBox" ref="cropBox">
+    <div @dblclick="chooseFn" class="cropBox" ref="cropBox">
         <!-- 左上方 -->
         <div class="resize-handle nw"></div>
         <!-- 右上方 -->
@@ -15,6 +15,42 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from 'vue';
+import html2canvas from "html2canvas";
+
+const chooseFn = ()=>{
+  takeScreenshot()
+}
+
+function takeScreenshot() {
+  // var element = document.querySelector(".cropBox");
+  var element = document.querySelector(".container");
+  html2canvas(element)
+    .then(function (canvas) {
+      var imDataURL = canvas.toDataURL("image/png");
+      downloadImage(imDataURL)
+      // console.log('imDataURL', imDataURL);
+      // window.open(imDataURL, "_blank");
+    })
+    .catch(function (error) {
+      console.error("Error while taking screenshot:", error);
+    });
+}
+
+function downloadImage(dataURL, fileName = 'screenshot.png') {
+            // 创建隐藏的可下载链接
+            var downloadLink = document.createElement("a");
+            downloadLink.href = dataURL;
+            downloadLink.download = fileName; // 设置默认文件名
+            // 隐藏链接
+            downloadLink.style.display = 'none';
+            document.body.appendChild(downloadLink);
+            // 触发点击
+            downloadLink.click();
+            // 稍后移除链接
+            setTimeout(function () {
+                document.body.removeChild(downloadLink);
+            }, 0);
+        }
 
 const props = defineProps(['container']) // 容器dom
 
@@ -37,8 +73,12 @@ const CropBoxInfo = reactive({
 });
 
 watch(() => props.container, () => {
-    setCropBox(cropBox.value, CropBoxInfo);
+    // setCropBox(cropBox.value, CropBoxInfo);
 })
+
+setTimeout(() => {
+  setCropBox(cropBox.value, CropBoxInfo);
+}, 1000);
 
 // 设置裁剪框可拖动和调整大小
 const setCropBox = (dom, info) => {
@@ -62,6 +102,7 @@ const setCropBox = (dom, info) => {
         info.startX = e.clientX;
         info.startY = e.clientY;
         containerRect = props.container.getBoundingClientRect();
+        // containerRect = document.querySelector('#app').getBoundingClientRect();
         info.currentX = info.lastDragEndX;
         info.currentY = info.lastDragEndY;
         info.currentWidth = info.initialWidth;

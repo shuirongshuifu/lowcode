@@ -42,7 +42,6 @@
         >
         </component>
       </template>
-      <!-- <myCrop :container="container" /> -->
     </div>
     <div class="attrs">
       <template v-if="conf[curIndex].type == 'myText'">
@@ -169,7 +168,6 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from "vue";
-import myCrop from "./com/myCrop.vue";
 import myImg from "./com/myImg.vue";
 import myText from "./com/myText.vue";
 import { defaultDragInfo, defaultTextStyle, defaultImgStyle } from "./default.js";
@@ -214,26 +212,12 @@ const conf = reactive([
     dragInfo: { ...defaultDragInfo },
     style: { ...defaultTextStyle },
   },
-  //   {
-  //     type: "myImg",
-  //     dragInfo: { ...defaultDragInfo },
-  //     style: { ...defaultImgStyle },
-  //   },
-]);
-
-watch(
-  () => conf,
-  (newVal, oldVal) => {
-    console.log("newVal", newVal);
-  },
   {
-    deep: true,
-  }
-);
-
-onMounted(() => {
-  initDrag();
-});
+    type: "myImg",
+    dragInfo: { ...defaultDragInfo },
+    style: { ...defaultImgStyle },
+  },
+]);
 
 const curIndex = ref(0);
 const curDom = ref(null);

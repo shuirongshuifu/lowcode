@@ -1,3 +1,5 @@
+import certificate from '@/assets/certificate.png'
+
 // 默认拖拽信息配置
 export const defaultDragInfo = {
     isTargetDrag: false,
@@ -29,5 +31,6 @@ export const defaultTextStyle = {
 // 默认图片样式
 export const defaultImgStyle = {
     zIndex: 1,
-    imgSrc: 'http://ashuai.work/static/img/avantar.png'
+    // imgSrc: 'http://ashuai.work/api/ca.png' // html2canvas只能截取自己的图片，外部图不能截取
+    imgSrc: certificate
 };
