@@ -177,33 +177,33 @@
       isResizing = false;
     });
 
-    // 双击下载截图功能
+    // 双击触发截图功能
     cropBox.addEventListener("dblclick", () => {
-      const rect = cropBox.getBoundingClientRect();
+      const rect = cropBox.getBoundingClientRect(); // 获取截图区域位置和尺寸
+      const scale = window.devicePixelRatio; // 获取设备像素比
 
-      html2canvas(content).then((canvas) => {
+      html2canvas(content, { scale }).then((canvas) => {
         const croppedCanvas = document.createElement("canvas");
         const ctx = croppedCanvas.getContext("2d");
 
-        const scale = window.devicePixelRatio;
-
+        // 设置裁剪画布的尺寸，考虑设备像素比
         croppedCanvas.width = rect.width * scale;
         croppedCanvas.height = rect.height * scale;
 
-        ctx.scale(scale, scale);
-
+        // 在裁剪画布上绘制图片
         ctx.drawImage(
           canvas,
-          rect.left * scale,
-          rect.top * scale,
-          rect.width * scale,
-          rect.height * scale,
+          rect.left * scale, // 裁剪的起始 x 坐标（考虑像素比）
+          rect.top * scale,  // 裁剪的起始 y 坐标（考虑像素比）
+          rect.width * scale,  // 裁剪的宽度（像素比）
+          rect.height * scale, // 裁剪的高度（像素比）
           0,
           0,
-          rect.width * scale,
-          rect.height * scale
+          rect.width * scale, // 绘制到目标画布的宽度
+          rect.height * scale // 绘制到目标画布的高度
         );
 
+        // 导出裁剪后的图片
         croppedCanvas.toBlob((blob) => {
           const link = document.createElement("a");
           link.href = URL.createObjectURL(blob);
@@ -212,6 +212,7 @@
         });
       });
     });
+    
   </script>
 </body>
 
