@@ -13,10 +13,4 @@ const router = createRouter({
     routes
 })
 
-// // 去除重复路由报错的问题
-// const originalPush = router.push
-// router.push = function push(location) {
-//     return originalPush.call(this, location).catch((err) => err)
-// }
-
 export default router

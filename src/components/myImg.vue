@@ -11,6 +11,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from "vue";
+import { transformDom } from "@/utils/index.js";
 
 const emits = defineEmits(["chooseFn"]);
 const props = defineProps(["container", "dragInfo", "style", "index"]); // 容器dom
@@ -78,14 +79,14 @@ const setDomCanZoom = (dom, info) => {
     e.preventDefault();
     // 缩放比例调整
     const delta = e.deltaY > 0 ? -0.1 : 0.1;
-    info.scale = Math.min(Math.max(info.scale + delta, 0.25), 4); // 限制缩放范围在 0.25 到 4 之间
+    info.scale = Math.min(Math.max(info.scale + delta, 0.1), 10); // 限制缩放范围在 0.1 到 10 之间
     // 更新 transform
     transformFn(dom, info);
   });
 };
 
 const transformFn = (dom, info) => {
-  dom.style.transform = `translate(${info.currentX}px, ${info.currentY}px) scale(${info.scale})`;
+  transformDom(dom, info)
 };
 </script>
 

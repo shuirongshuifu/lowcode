@@ -104,7 +104,7 @@ const setDomCanDrag = (dom, info) => {
 //     transformFn(targetDom.value, dragInfo)
 // }, 2000);
 const transformFn = (dom, info) => {
-  dom.style.transform = `translate(${info.currentX}px, ${info.currentY}px) scale(${info.scale})`;
+  dom.style.transform = `translate(${info.currentX}px, ${info.currentY}px) scale(${info.scale}) rotate(${info.rotate}deg)`;
 };
 </script>
 

@@ -1,20 +1,23 @@
-import certificate from '@/assets/certificate.png'
+import certificate from '@/assets/img/certificate.png'
 
 // 默认拖拽信息配置
 export const defaultDragInfo = {
-    isTargetDrag: false,
+    isTargetDrag: false, // 目标元素是否在拖拽中
     startX: 0,
     startY: 0,
     currentX: 0,
     currentY: 0,
     lastDragEndX: 0,
     lastDragEndY: 0,
-    scale: 1,
+    scale: 1, // 缩放倍数
+    rotate: 0, // 旋转角度
+    scaleX: 1, // 水平镜像翻转
+    scaleY: 1 // 垂直镜像翻转
 };
 
 // 默认文本样式
 export const defaultTextStyle = {
-    zIndex: 1,
+    zIndex: 2,
     fontSize: 24,
     color: "#363636",
     backgroundColor: "rgba(0,0,0,0)",

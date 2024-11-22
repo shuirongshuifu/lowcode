@@ -163,8 +163,8 @@ const init = () => {
   position: absolute;
   font-size: 12px;
   color: #333;
-  top: 5px;
-  left: 5px;
+  top: -20px;
+  right: 5px;
 }
 
 .resize-handle {
