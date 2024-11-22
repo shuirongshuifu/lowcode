@@ -163,6 +163,7 @@
         </el-form>
       </template>
     </div>
+    <cropBox />
   </div>
 </template>
 
@@ -173,6 +174,7 @@ import myText from "./com/myText.vue";
 import { defaultDragInfo, defaultTextStyle, defaultImgStyle } from "./default.js";
 import { cloneDeep } from "lodash";
 import { fontWeightList, fontFamilyList } from "./enum.js";
+import cropBox from "@/components/cropBox.vue";
 
 const activeNames = ref(["1"]);
 
@@ -233,6 +235,10 @@ const inputFn = (val, textVal) => {
 const delFn = () => {
   curDom.value.parentNode.removeChild(curDom.value);
 };
+
+onMounted(()=>{
+  initDrag()
+})
 
 const curLeftDrag = ref(null);
 const initDrag = () => {
