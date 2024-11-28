@@ -118,9 +118,13 @@ const init = () => {
       const ctx = croppedCanvas.getContext("2d");
 
       // 设置裁剪画布的尺寸，考虑设备像素比
+      /**
+       * 图片的实际宽高rect.width、rect.height
+       * */ 
       croppedCanvas.width = rect.width * scale;
       croppedCanvas.height = rect.height * scale;
 
+      console.log('croppedCanvas',croppedCanvas);
       // 在裁剪画布上绘制图片
       ctx.drawImage(
         canvas,
@@ -162,9 +166,12 @@ const init = () => {
 .val {
   position: absolute;
   font-size: 12px;
-  color: #333;
+  color: #fff;
   top: -20px;
   right: 5px;
+  background-color: #999;
+  padding: 1px 4px;
+  box-sizing: border-box;
 }
 
 .resize-handle {

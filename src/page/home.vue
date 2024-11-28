@@ -6,20 +6,16 @@
     <div class="mainContent">
       <div class="container" ref="container" id="container">
         <template v-for="(item, index) in conf">
-          <component
-            :is="item.type"
-            :index="index"
-            :dragInfo="item.dragInfo"
-            :style="item.style"
-            :container="container"
-            @chooseFn="chooseFn"
-            @inputFn="inputFn"
-          >
+          <component ref="childRefs" :is="item.type" :index="index" :dragInfo="item.dragInfo" :style="item.style"
+            :container="container" @chooseFn="chooseFn" @inputFn="inputFn">
           </component>
         </template>
       </div>
     </div>
     <div class="rightContent">
+      <el-button type="success" style="width: 100%;" @click="lookData">查看数据</el-button>
+      <br>
+      <br>
       <template v-if="conf[curIndex]?.type == 'myText'">
         <textSet :confItem="conf[curIndex]" @delFn="delFn" />
       </template>
@@ -32,7 +28,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch } from "vue";
+import { ref, reactive, onMounted, watch, nextTick } from "vue";
 import myImg from "@/components/myImg.vue";
 import myText from "@/components/myText.vue";
 import cropBox from "@/components/cropBox.vue";
@@ -45,23 +41,38 @@ import { defaultDragInfo, defaultTextStyle, defaultImgStyle } from "./data.js";
 const container = ref(null); // 容器dom
 const dragBoxWrap = ref(null); // 总拖拽dom
 
+const childRefs = ref([]);
+
 defineOptions({
   name: "MyForm",
   components: { myImg, myText },
 });
 
-const conf = reactive([
-  {
-    type: "myText",
-    dragInfo: { ...defaultDragInfo },
-    style: { ...defaultTextStyle },
-  },
-  {
-    type: "myImg",
-    dragInfo: { ...defaultDragInfo },
-    style: { ...defaultImgStyle },
-  },
-]);
+let conf = reactive([])
+
+onMounted(() => {
+  initConf()
+})
+
+// let jsonData = [{ "type": "myText", "dragInfo": { "isTargetDrag": false, "startX": 260, "startY": 31, "currentX": 299, "currentY": 330, "lastDragEndX": 299, "lastDragEndY": 330, "scale": 1, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 2, "fontSize": 24, "color": "#363636", "backgroundColor": "rgba(0,0,0,0)", "fontWeight": 400, "textVal": "普通文本", "fontFamily": "微软雅黑", "fontStyle": "normal", "letterSpacing": 1, "wordSpacing": 1, "lineHeight": 1.25, "writingMode": "horizontalTb" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 668, "startY": 430, "currentX": 4, "currentY": 137, "lastDragEndX": 4, "lastDragEndY": 137, "scale": 0.7000000000000001, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "/src/assets/img/certificate.png" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 794, "startY": 573, "currentX": 43, "currentY": 1, "lastDragEndX": 43, "lastDragEndY": 1, "scale": 0.1, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "http://localhost:7499/src/assets/img/zhang.png" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 417, "startY": 486, "currentX": 46, "currentY": 325, "lastDragEndX": 46, "lastDragEndY": 325, "scale": 0.30000000000000016, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "http://localhost:7499/src/assets/img/avantar.png" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 692, "startY": 309, "currentX": 301, "currentY": 126, "lastDragEndX": 301, "lastDragEndY": 126, "scale": 0.30000000000000004, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "http://localhost:7499/src/assets/img/haha.png" } }]
+let jsonData = []
+
+const initConf = () => {
+  conf.push(...jsonData)
+
+  // conf.value.push(...[
+  //   {
+  //     type: "myText",
+  //     dragInfo: { ...defaultDragInfo },
+  //     style: { ...defaultTextStyle },
+  //   },
+  //   {
+  //     type: "myImg",
+  //     dragInfo: { ...defaultDragInfo },
+  //     style: { ...defaultImgStyle },
+  //   },
+  // ])
+}
 
 const curIndex = ref(0);
 const curDom = ref(null);
@@ -77,9 +88,20 @@ const inputFn = (val, textVal) => {
 };
 
 const delFn = () => {
+
+  // curDom.value.parentNode.removeChild(curDom.value)
   conf.splice(curIndex.value, 1);
   curIndex.value = -1;
   curDom.value = null;
+
+  nextTick(()=>{
+    childRefs.value.forEach((childRef, index) => {
+      if (childRef) {
+        childRef.reCalPosition();
+      }
+    });
+  })
+
 };
 
 onMounted(() => {
@@ -151,6 +173,10 @@ const isCurDomInContainer = (element) => {
   }
   return false;
 };
+
+const lookData = () => {
+  console.log(JSON.stringify(conf))
+}
 </script>
 
 <style lang="less" scoped>
@@ -167,16 +193,16 @@ const isCurDomInContainer = (element) => {
 
   .mainContent {
     flex: 1;
-    min-width: 800px;
-    min-height: 800px;
 
     .container {
       position: relative;
-      height: 800px;
+      height: 100%;
+      min-width: 1200px;
       border: 1px solid #e9e9e9;
       background-color: #fff;
       background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC");
       overflow: hidden;
+      z-index: 1;
     }
   }
 

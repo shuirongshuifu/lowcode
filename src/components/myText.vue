@@ -40,6 +40,14 @@ watch(
   }
 );
 
+const reCalPosition = () => {
+  console.log('文字');
+}
+
+defineExpose({
+  reCalPosition
+})
+
 onMounted(() => {
   if (!props.container) {
     return;

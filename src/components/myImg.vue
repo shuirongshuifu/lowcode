@@ -1,12 +1,5 @@
 <template>
-  <img
-    @click="chooseFn"
-    :src="style.imgSrc"
-    tabindex="0"
-    :style="style"
-    class="imgBg"
-    ref="imgBg"
-  />
+  <img @click="chooseFn" :src="style.imgSrc" tabindex="0" :style="style" class="imgBg" ref="imgBg" />
 </template>
 
 <script setup>
@@ -38,6 +31,20 @@ onMounted(() => {
   setDomCanZoom(imgBg.value, props.dragInfo);
   transformFn(imgBg.value, props.dragInfo);
 });
+
+const reCalPosition = () => {
+  console.log('img');
+  transformFn(imgBg.value, props.dragInfo);
+}
+
+defineExpose({
+  reCalPosition
+})
+
+// setTimeout(() => {
+//   console.log('5000');
+//   transformFn(imgBg.value, props.dragInfo);
+// }, 5000);
 
 // 设置某个元素可拖拽移动
 const setDomCanDrag = (dom, info) => {
@@ -98,6 +105,7 @@ const transformFn = (dom, info) => {
   /* 设置缩放的中心点 */
   cursor: move;
 }
+
 .imgBg:active {
   outline: 3px dashed blue;
   outline-offset: 5px;
