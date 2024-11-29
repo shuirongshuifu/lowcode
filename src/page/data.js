@@ -27,7 +27,7 @@ export const defaultTextStyle = {
     fontStyle: "normal",
     letterSpacing: 1,
     wordSpacing: 1,
-    lineHeight: 1.25,
+    lineHeight: 1,
     writingMode: 'horizontalTb'
 };
 

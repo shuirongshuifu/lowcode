@@ -1,5 +1,5 @@
 <template>
-  <el-collapse style="width: 150px">
+  <el-collapse style="width: 180px;">
     <el-collapse-item v-for="item in toolArr" :title="item.label" :name="item.label">
       <template #title>
         <div style="font-weight: 600">{{ item.emoji }} {{ item.label }}</div>
