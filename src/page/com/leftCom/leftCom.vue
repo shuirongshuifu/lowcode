@@ -1,6 +1,6 @@
 <template>
   <el-collapse style="width: 180px;">
-    <el-collapse-item v-for="item in toolArr" :title="item.label" :name="item.label">
+    <el-collapse-item style="text-align: center;" v-for="item in toolArr" :title="item.label" :name="item.label">
       <template #title>
         <div style="font-weight: 600">{{ item.emoji }} {{ item.label }}</div>
       </template>
@@ -51,5 +51,6 @@ const toolArr = [
   padding: 2px;
   cursor: move;
   margin-top: 6px;
+  display: inline-block;
 }
 </style>
