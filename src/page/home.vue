@@ -164,12 +164,14 @@ onMounted(() => {
 });
 
 const curLeftDrag = ref(null);
+const curLeftDragRelative = reactive({});
 const initDrag = () => {
   // 拖拽开始事件
   dragBoxWrap.value.ondragstart = (e) => {
     // 更改拖动时候的鼠标状态
     e.dataTransfer.effectAllowed = "move";
     curLeftDrag.value = e.target;
+    getCurRelative(curLeftDrag.value, e)
   };
   // 把拖拽的东西，拖拽到那个元素之上（触发频繁）
   dragBoxWrap.value.ondragover = (e) => {
@@ -233,14 +235,27 @@ const getDragInfoRelativeToContainer = (e) => {
   const bRect = container.value.getBoundingClientRect();
   const aClientX = e.clientX;
   const aClientY = e.clientY;
-  const aRelativeX = aClientX - bRect.left;
-  const aRelativeY = aClientY - bRect.top;
+  const aRelativeX = aClientX - bRect.left - curLeftDragRelative.left;
+  const aRelativeY = aClientY - bRect.top - curLeftDragRelative.top;
   let dragInfo = cloneDeep(defaultDragInfo);
   dragInfo.currentX = aRelativeX;
   dragInfo.currentY = aRelativeY;
   dragInfo.lastDragEndX = aRelativeX;
   dragInfo.lastDragEndY = aRelativeY;
   return dragInfo;
+};
+
+// 拖拽时刻鼠标相对于图片或文字的top和left的值
+const getCurRelative = (curDom, e) => {
+  const bRect = curDom.getBoundingClientRect();
+  const aClientX = e.clientX;
+  const aClientY = e.clientY;
+  const aRelativeX = aClientX - bRect.left;
+  const aRelativeY = aClientY - bRect.top;
+  curLeftDragRelative.left = aRelativeX
+  curLeftDragRelative.top = aRelativeY
+  console.log('curLeftDragRelative', curLeftDragRelative);
+  
 };
 
 // 当前拖拽的元素是否在container容器中
