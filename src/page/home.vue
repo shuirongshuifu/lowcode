@@ -21,18 +21,18 @@
       </div>
     </div>
     <div class="rightContent">
-      <el-button type="success" style="width: 100%" @click="lookData">查看数据</el-button>
-      <el-button type="success" style="width: 100%" @click="calFn">计算位置</el-button>
-      <br />
-      <br />
       <template v-if="conf[curIndex]?.type == 'myText'">
         <textSet :confItem="conf[curIndex]" @delFn="delFn" />
       </template>
       <template v-if="conf[curIndex]?.type == 'myImg'">
         <imgSet :curDom="curDom" :confItem="conf[curIndex]" @delFn="delFn" />
       </template>
+      <div>
+        <el-button class="dBtn1" type="success" @click="seeData">查看配置数据</el-button>
+        <el-button class="dBtn2" type="success" @click="calFn">计算相对位置</el-button>
+      </div>
     </div>
-    <!-- <cropBox /> -->
+    <cropBox />
   </div>
 </template>
 
@@ -202,6 +202,7 @@ const initDrag = () => {
   };
 };
 
+// 假设只有一个图片，一个文字
 const calFn = () => {
   /**
    * 1. 拿到主要参照物底图，层级最低的图片
@@ -254,7 +255,7 @@ const isCurDomInContainer = (element) => {
   return false;
 };
 
-const lookData = () => {
+const seeData = () => {
   console.log(JSON.stringify(conf));
 };
 </script>
@@ -290,6 +291,14 @@ const lookData = () => {
     padding: 0 12px;
     width: 250px;
     text-align: center;
+    .dBtn1 {
+      width: 100%;
+    }
+    .dBtn2 {
+      width: 100%;
+      margin: 0;
+      margin-top: 16px;
+    }
   }
 }
 </style>
