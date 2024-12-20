@@ -27,12 +27,12 @@
       <template v-if="conf[curIndex]?.type == 'myImg'">
         <imgSet :curDom="curDom" :confItem="conf[curIndex]" @delFn="delFn" />
       </template>
-      <div>
+      <div v-show="conf.length > 0">
         <el-button class="dBtn1" type="success" @click="seeData">查看配置数据</el-button>
         <el-button class="dBtn2" type="success" @click="calFn">计算相对位置</el-button>
       </div>
     </div>
-    <cropBox />
+    <!-- <cropBox /> -->
   </div>
 </template>
 
@@ -46,6 +46,10 @@ import textSet from "./com/rightCom/textSet.vue";
 import imgSet from "./com/rightCom/imgSet.vue";
 import { cloneDeep } from "lodash";
 import { defaultDragInfo, defaultTextStyle, defaultImgStyle } from "./data.js";
+
+import certificate from "@/assets/img/certificate.png";
+import zhang from "@/assets/img/zhang.png";
+import avantar from "@/assets/img/avantar.png";
 
 const container = ref(null); // 容器dom
 const dragBoxWrap = ref(null); // 总拖拽dom
@@ -63,35 +67,51 @@ onMounted(() => {
   initConf();
 });
 
-// let jsonData = [{ "type": "myText", "dragInfo": { "isTargetDrag": false, "startX": 260, "startY": 31, "currentX": 299, "currentY": 330, "lastDragEndX": 299, "lastDragEndY": 330, "scale": 1, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 2, "fontSize": 24, "color": "#363636", "backgroundColor": "rgba(0,0,0,0)", "fontWeight": 400, "textVal": "普通文本", "fontFamily": "微软雅黑", "fontStyle": "normal", "letterSpacing": 1, "wordSpacing": 1, "lineHeight": 1.25, "writingMode": "horizontalTb" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 668, "startY": 430, "currentX": 4, "currentY": 137, "lastDragEndX": 4, "lastDragEndY": 137, "scale": 0.7000000000000001, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "/src/assets/img/certificate.png" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 794, "startY": 573, "currentX": 43, "currentY": 1, "lastDragEndX": 43, "lastDragEndY": 1, "scale": 0.1, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "http://localhost:7499/src/assets/img/zhang.png" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 417, "startY": 486, "currentX": 46, "currentY": 325, "lastDragEndX": 46, "lastDragEndY": 325, "scale": 0.30000000000000016, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "http://localhost:7499/src/assets/img/avantar.png" } }, { "type": "myImg", "dragInfo": { "isTargetDrag": false, "startX": 692, "startY": 309, "currentX": 301, "currentY": 126, "lastDragEndX": 301, "lastDragEndY": 126, "scale": 0.30000000000000004, "rotate": 0, "scaleX": 1, "scaleY": 1 }, "style": { "zIndex": 1, "imgSrc": "http://localhost:7499/src/assets/img/haha.png" } }]
 let jsonData = [
   {
     type: "myImg",
     dragInfo: {
       isTargetDrag: false,
-      startX: 623,
-      startY: 312,
-      currentX: 51,
-      currentY: 58,
-      lastDragEndX: 51,
-      lastDragEndY: 58,
+      startX: 654,
+      startY: 343,
+      currentX: 102.39999389648438,
+      currentY: 89.80000305175781,
+      lastDragEndX: 102.39999389648438,
+      lastDragEndY: 89.80000305175781,
+      scale: 1,
+      rotate: -360,
+      scaleX: 1,
+      scaleY: 1,
+    },
+    style: { zIndex: 1, imgSrc: certificate },
+  },
+  {
+    type: "myImg",
+    dragInfo: {
+      isTargetDrag: false,
+      startX: 858,
+      startY: 454,
+      currentX: 539.3999938964844,
+      currentY: 324.9250030517578,
+      lastDragEndX: 539.3999938964844,
+      lastDragEndY: 324.9250030517578,
       scale: 1,
       rotate: 0,
       scaleX: 1,
       scaleY: 1,
     },
-    style: { zIndex: 1, imgSrc: "http://localhost:7499/src/assets/img/certificate.png" },
+    style: { zIndex: 1, imgSrc: zhang },
   },
   {
     type: "myText",
     dragInfo: {
       isTargetDrag: false,
-      startX: 324,
-      startY: 475,
-      currentX: 157,
-      currentY: 435,
-      lastDragEndX: 157,
-      lastDragEndY: 435,
+      startX: 646,
+      startY: 326,
+      currentX: 378.3999938964844,
+      currentY: 304.8000030517578,
+      lastDragEndX: 378.3999938964844,
+      lastDragEndY: 304.8000030517578,
       scale: 1,
       rotate: 0,
       scaleX: 1,
@@ -99,12 +119,12 @@ let jsonData = [
     },
     style: {
       zIndex: 2,
-      fontSize: 60,
+      fontSize: 24,
       color: "#363636",
       backgroundColor: "rgba(0,0,0,0)",
-      fontWeight: 100,
-      textVal: "你好",
-      fontFamily: "Arial",
+      fontWeight: 700,
+      textVal: "恭喜获奖666",
+      fontFamily: "幼圆",
       fontStyle: "normal",
       letterSpacing: 1,
       wordSpacing: 1,
@@ -112,11 +132,26 @@ let jsonData = [
       writingMode: "horizontalTb",
     },
   },
+  {
+    type: "myImg",
+    dragInfo: {
+      isTargetDrag: false,
+      startX: 406,
+      startY: 513,
+      currentX: 38.399993896484375,
+      currentY: 350.6499938964844,
+      lastDragEndX: 38.399993896484375,
+      lastDragEndY: 350.6499938964844,
+      scale: 0.20000000000000015,
+      rotate: 0,
+      scaleX: 1,
+      scaleY: 1,
+    },
+    style: { zIndex: 1, imgSrc: avantar },
+  },
 ];
-
 const initConf = () => {
   conf.push(...jsonData);
-
   // conf.value.push(...[
   //   {
   //     type: "myText",
@@ -171,7 +206,7 @@ const initDrag = () => {
     // 更改拖动时候的鼠标状态
     e.dataTransfer.effectAllowed = "move";
     curLeftDrag.value = e.target;
-    getCurRelative(curLeftDrag.value, e)
+    getCurRelative(curLeftDrag.value, e);
   };
   // 把拖拽的东西，拖拽到那个元素之上（触发频繁）
   dragBoxWrap.value.ondragover = (e) => {
@@ -252,10 +287,9 @@ const getCurRelative = (curDom, e) => {
   const aClientY = e.clientY;
   const aRelativeX = aClientX - bRect.left;
   const aRelativeY = aClientY - bRect.top;
-  curLeftDragRelative.left = aRelativeX
-  curLeftDragRelative.top = aRelativeY
-  console.log('curLeftDragRelative', curLeftDragRelative);
-  
+  curLeftDragRelative.left = aRelativeX;
+  curLeftDragRelative.top = aRelativeY;
+  console.log("curLeftDragRelative", curLeftDragRelative);
 };
 
 // 当前拖拽的元素是否在container容器中
